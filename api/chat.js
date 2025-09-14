@@ -73,7 +73,7 @@ When asked about services or projects, provide detailed, comprehensive responses
             content: message.trim()
           }
         ],
-        max_tokens: 1000,
+        max_tokens: 2000,
         temperature: 0.7,
         stream: false
       })
