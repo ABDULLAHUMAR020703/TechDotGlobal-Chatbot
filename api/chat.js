@@ -29,6 +29,8 @@ export default async function handler(req, res) {
 
     // Get API key from environment variables
     const apiKey = process.env.GROQ_API_KEY;
+    console.log('API Key exists:', !!apiKey);
+    console.log('API Key length:', apiKey ? apiKey.length : 0);
     if (!apiKey) {
       console.error('GROQ_API_KEY environment variable is not set');
       return res.status(500).json({ error: 'Server configuration error' });
@@ -80,8 +82,10 @@ Keep responses concise, professional, and helpful.`;
     if (!groqResponse.ok) {
       const errorText = await groqResponse.text();
       console.error('Groq API error:', groqResponse.status, errorText);
+      console.error('Groq API response headers:', Object.fromEntries(groqResponse.headers.entries()));
       return res.status(500).json({ 
-        error: 'Failed to get response from AI service' 
+        error: 'Failed to get response from AI service',
+        details: `Status: ${groqResponse.status}, Response: ${errorText}`
       });
     }
 
