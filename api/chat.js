@@ -62,7 +62,7 @@ Keep responses concise, professional, and helpful.`;
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'mixtral-8x7b-instruct',
+        model: 'llama-3.1-70b-versatile',
         messages: [
           {
             role: 'system',
