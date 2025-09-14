@@ -52,7 +52,7 @@ Notable projects include:
 
 Please respond only to queries related to TechDotGlobal's services, projects, or general technology questions that align with our expertise. For unrelated queries, politely redirect users to ask about our services or visit our website for more information.
 
-Keep responses concise, professional, and helpful.`;
+When asked about services or projects, provide detailed, comprehensive responses. Keep responses professional and helpful.`;
 
     // Call Groq API
     const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -73,7 +73,7 @@ Keep responses concise, professional, and helpful.`;
             content: message.trim()
           }
         ],
-        max_tokens: 500,
+        max_tokens: 1000,
         temperature: 0.7,
         stream: false
       })
