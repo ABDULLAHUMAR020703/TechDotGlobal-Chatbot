@@ -1,0 +1,25 @@
+{
+  "name": "techdotglobal-chatbot",
+  "version": "1.0.0",
+  "description": "TechDotGlobal chatbot with Vercel proxy and Groq API integration",
+  "main": "api/chat.js",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'",
+    "deploy": "vercel --prod"
+  },
+  "keywords": [
+    "chatbot",
+    "groq",
+    "vercel",
+    "techdotglobal"
+  ],
+  "author": "TechDotGlobal",
+  "license": "MIT",
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
+}
