@@ -1,15 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>TechDotGlobal Chatbot API</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechDotGlobal Chatbot</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .api-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .api-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .api-info code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
 </head>
 <body>
-    <h1>TechDotGlobal Chatbot API</h1>
-    <p>API Endpoints:</p>
-    <ul>
-        <li><a href="/api/test">GET /api/test</a> - Test endpoint</li>
-        <li>POST /api/chat - Chat endpoint (requires POST request)</li>
-    </ul>
-    <p>This is a serverless function project. The main functionality is in the API endpoints.</p>
+    <div class="container">
+        <h1>🤖 TechDotGlobal Chatbot</h1>
+        <p>Welcome to the TechDotGlobal AI Assistant! This chatbot can help you learn about our services, projects, and answer your technology-related questions.</p>
+        
+        <div class="api-info">
+            <h3>API Information</h3>
+            <p><strong>Endpoint:</strong> <code>POST /api/chat</code></p>
+            <p><strong>Model:</strong> llama-3.1-8b-instant</p>
+            <p><strong>Max Tokens:</strong> 2000</p>
+        </div>
+        
+        <p>To use this chatbot on your website, copy the widget code from the repository and paste it into your HTML.</p>
+    </div>
+
+    <!-- TechDotGlobal Chatbot Widget -->
+    <script>
+    (function(){
+      const API_URL = 'https://tech-dot-global-chatbot-3938.vercel.app/api/chat';
+      const button = document.createElement('button');
+      button.innerHTML = '💬 Chat';
+      button.style.cssText = 'position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border:none;color:white;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.15);z-index:10000;font-size:16px;';
+      
+      const chatWindow = document.createElement('div');
+      chatWindow.style.cssText = 'position:fixed;bottom:90px;right:20px;width:350px;height:400px;background:white;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.12);display:none;flex-direction:column;z-index:10000;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;';
+      
+      const header = document.createElement('div');
+      header.innerHTML = '<div style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;padding:15px;border-radius:12px 12px 0 0;display:flex;justify-content:space-between;align-items:center;"><h3 style="margin:0;font-size:16px;">TechDotGlobal Assistant</h3><button id="closeChat" style="background:none;border:none;color:white;font-size:20px;cursor:pointer;">×</button></div>';
+      
+      const messages = document.createElement('div');
+      messages.style.cssText = 'flex:1;padding:20px;overflow-y:auto;background:#f8f9fa;';
+      messages.innerHTML = '<div style="background:white;padding:12px 16px;border-radius:18px;border:1px solid #e1e5e9;max-width:80%;margin-bottom:15px;"><div style="font-size:14px;line-height:1.4;">👋 Hello! I\'m your TechDotGlobal assistant. How can I help you today?</div></div>';
+      
+      const inputArea = document.createElement('div');
+      inputArea.style.cssText = 'padding:20px;background:white;border-top:1px solid #e1e5e9;';
+      inputArea.innerHTML = '<div style="display:flex;gap:10px;align-items:center;"><input id="chatInput" type="text" placeholder="Type your message..." style="flex:1;padding:12px 16px;border:1px solid #e1e5e9;border-radius:24px;font-size:14px;outline:none;" maxlength="500"><button id="sendBtn" style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border:none;color:white;cursor:pointer;">➤</button></div>';
+      
+      chatWindow.appendChild(header);
+      chatWindow.appendChild(messages);
+      chatWindow.appendChild(inputArea);
+      document.body.appendChild(button);
+      document.body.appendChild(chatWindow);
+      
+      let isOpen = false;
+      button.onclick = () => { isOpen = !isOpen; chatWindow.style.display = isOpen ? 'flex' : 'none'; if(isOpen) document.getElementById('chatInput').focus(); };
+      document.getElementById('closeChat').onclick = () => { isOpen = false; chatWindow.style.display = 'none'; };
+      
+      const addMessage = (text, sender) => {
+        const div = document.createElement('div');
+        div.style.cssText = 'margin-bottom:15px;display:flex;align-items:flex-start;' + (sender === 'user' ? 'justify-content:flex-end;' : '');
+        const content = document.createElement('div');
+        content.style.cssText = 'max-width:80%;padding:12px 16px;border-radius:18px;font-size:14px;line-height:1.4;' + (sender === 'user' ? 'background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border-bottom-right-radius:4px;' : 'background:white;color:#333;border:1px solid #e1e5e9;border-bottom-left-radius:4px;');
+        content.textContent = text;
+        div.appendChild(content);
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+      };
+      
+      const sendMessage = async () => {
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+        if (!message) return;
+        
+        addMessage(message, 'user');
+        input.value = '';
+        document.getElementById('sendBtn').disabled = true;
+        
+        try {
+          const response = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message }) });
+          const data = await response.json();
+          addMessage(data.message, 'bot');
+        } catch (error) {
+          addMessage('Sorry, I encountered an error. Please try again later.', 'bot');
+        } finally {
+          document.getElementById('sendBtn').disabled = false;
+          input.focus();
+        }
+      };
+      
+      document.getElementById('sendBtn').onclick = sendMessage;
+      document.getElementById('chatInput').onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
+    })();
+    </script>
 </body>
 </html>
